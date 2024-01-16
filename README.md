@@ -26,5 +26,8 @@ Il est à noter que certaines expressions peuvent être concaténées, notamment
 - I fill in all the form with valid data
 - Submit an empty form
 
+### Avis sur les datasets
+Gherkin permet l'injection de datasets en 'dur' via des tables de données. Elles peuvent paraitre pratiques au premier abord, mais je pense que c'est une très mauvaise pratique. Chaque mise à jour de données oblige un commit du code. Le code et la data devrait être indépendants. Il est préférable de s'orienter lorsque possible vers des mockups ou des datasets déposés en tableur ou bdd dédiée.
+
 ## Anomalies détectées
 - il n'y a pas de validation des formats de données
