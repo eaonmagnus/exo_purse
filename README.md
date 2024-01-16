@@ -4,6 +4,7 @@
 - java 8
 - cucumber
 - selenium
+- maven
 - https://randomuser.me/api/ (ne nécessite pas de création de compte)
 - librairies additionnelles
 
