@@ -4,7 +4,7 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;  // Ajoutez cette ligne
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,10 +12,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.Select;
 import java.time.Duration;
 import org.openqa.selenium.NoSuchElementException;
+
+import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 
 public class MyStepdefs {
     private final WebDriver driver;
+    private User randomUser;
 
     // Constructeur sans arguments pour satisfaire Cucumber
     public MyStepdefs() {
@@ -25,7 +31,6 @@ public class MyStepdefs {
 
     @Given("^I am on the contact form page")
     public void iAmOnTheContactFormPage() {
-        // Votre logique de test ici, par exemple :
         String url = "https://testqa.purse.tech/fake-contact";
         driver.get(url);
 
@@ -33,38 +38,50 @@ public class MyStepdefs {
         assertEquals("URL not as expected", url, actualUrl);
     }
 
-    @When("I fill in the form with mandatory valid data")
+    @When("I fill in the form with only mandatory valid data")
     public void iFillInTheFormWithMandatoryValidData() {
-        String firstname = "Gregory";
-        String lastname = "CHAPITEAU";
+
+        randomUser = RandomUserApiUtil.getRandomUser();
+
+        String firstname = randomUser.getFirstName();
+        String lastname = randomUser.getLastName();
+        String gender = randomUser.getGender();
         String message = "Lorem Ipsum valoris";
 
-        // Localisez la listbox par son identifiant
+        // Localiser la listbox par son identifiant
         WebElement listBoxElement = driver.findElement(By.id("gender"));
 
-        // Utilisez la classe Select pour interagir avec la listbox
+        // Utiliser la classe Select pour interagir avec la listbox
         Select listBox = new Select(listBoxElement);
 
-        // Sélectionnez une option par la valeur
-        listBox.selectByValue("female");
+        // Sélectionner une option par la valeur gender fournie par l'API
+        listBox.selectByValue(gender);
 
-        // Localisez l'élément input par son attribut "name"
+        // Localiser l'élément input par son attribut "name"
         WebElement inputFirstName = new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.presenceOfElementLocated(By.name("first-name")));
 
-        // Saisissez le texte "eaonmagnus" dans le champ de saisie
+        // Saisie dans input
         inputFirstName.sendKeys(firstname);
 
-        // Localisez l'élément input par son attribut "name"
+        // Localiser l'élément input par son attribut "name"
         WebElement inputLastName = new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.presenceOfElementLocated(By.name("last-name")));
 
-        // Saisissez le texte "eaonmagnus" dans le champ de saisie
+        // Saisie dans input
         inputLastName.sendKeys(lastname);
 
-        // Localisez l'élément TextBox par son attribut 'id' (par exemple)
+        // Localiser l'élément TextBox par son attribut 'id'
         WebElement textBox = driver.findElement(By.id("message"));
 
         // Saisissez du texte dans la TextBox
         textBox.sendKeys(message);
+
+        //Attente de 5s pour permettre une vérification visuelle de la saisie
+        //Non nécessaire en automatisation mais utile pour l'exercice
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Then("I can submit the form")
@@ -84,3 +101,4 @@ public class MyStepdefs {
         assertEquals("Wrong popin message", "Le message a été envoyé.", actualMsg);
         }
 }
+
