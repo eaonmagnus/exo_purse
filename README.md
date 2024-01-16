@@ -1,9 +1,10 @@
 ## Commentaires sur le code
 
-### Frameworks & langage
+### Frameworks, langage & API
 - java 8
 - cucumber
 - selenium
+- https://randomuser.me/api/ (ne nécessite pas de création de compte)
 - librairies additionnelles
 
 ### Approche POM
