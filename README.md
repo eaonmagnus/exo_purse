@@ -1,6 +1,10 @@
-# exo_purse
-
 ## Commentaires sur le code
+
+### Frameworks & langage
+- java 8
+- cucumber
+- selenium
+- librairies additionnelles
 
 ### Approche POM
 L'approche POM (Page Object Model) peut être utilisée pour interagir avec le dom. Dans ce cas, on définit une classe java par 'objet web' que l'on souhaite manipuler. Par exemple, sur un site marchand, on peut imaginer les objets suivants:
