@@ -12,10 +12,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.Select;
 import java.time.Duration;
 import org.openqa.selenium.NoSuchElementException;
+
+import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 
 public class MyStepdefs {
     private final WebDriver driver;
+    private User randomUser;
 
     // Constructeur sans arguments pour satisfaire Cucumber
     public MyStepdefs() {
@@ -35,9 +41,16 @@ public class MyStepdefs {
 
     @When("I fill in the form with mandatory valid data")
     public void iFillInTheFormWithMandatoryValidData() {
-        String firstname = "Gregory";
-        String lastname = "CHAPITEAU";
+
+
+        randomUser = RandomUserApiUtil.getRandomUser();
+
+        String firstname = randomUser.getFirstName();
+        String lastname = randomUser.getLastName();
+        String gender = randomUser.getGender();
         String message = "Lorem Ipsum valoris";
+
+
 
         // Localisez la listbox par son identifiant
         WebElement listBoxElement = driver.findElement(By.id("gender"));
@@ -46,7 +59,7 @@ public class MyStepdefs {
         Select listBox = new Select(listBoxElement);
 
         // Sélectionnez une option par la valeur
-        listBox.selectByValue("female");
+        listBox.selectByValue(gender);
 
         // Localisez l'élément input par son attribut "name"
         WebElement inputFirstName = new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.presenceOfElementLocated(By.name("first-name")));
@@ -84,3 +97,4 @@ public class MyStepdefs {
         assertEquals("Wrong popin message", "Le message a été envoyé.", actualMsg);
         }
 }
+

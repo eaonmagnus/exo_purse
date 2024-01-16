@@ -13,5 +13,6 @@
     <orderEntry type="library" name="busymachines.commons.duration_2.12" level="application" />
     <orderEntry type="library" name="io.cucumber.java" level="project" />
     <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="library" name="io.rest.assured" level="project" />
   </component>
 </module>
